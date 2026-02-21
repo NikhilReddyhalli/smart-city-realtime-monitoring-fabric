@@ -12,7 +12,16 @@ The system ingests real-time sensor data, performs time-series analytics using K
 - ⚡ Operational Monitoring (Real-Time Dashboard)
 - 📊 Executive Analytics (Power BI Report)
 
-It demonstrates real-time ingestion patterns, time-series analysis, anomaly detection logic, and dashboard design principles.
+---
+
+## 📊 Project Metrics
+
+- 📡 Simulated **50,000+ IoT sensors**
+- 📈 Processed **300,000+ sensor records**
+- ⏱ Achieved **sub-2 minute ingestion latency**
+- 🔄 Automated incremental ingestion via Fabric Data Pipeline
+- 📊 1-minute time-series aggregation for live analytics
+- 🚨 Real-time severe pollution detection (PM2.5 > 200)
 
 ---
 
@@ -35,21 +44,23 @@ Real-Time Dashboard + Power BI Report
 ## ⚡ Key Features
 
 ### 🔄 Real-Time Data Pipeline
-- Simulated IoT sensor data generation
+- Simulated high-volume IoT data stream
 - Incremental ingestion using KQL `.set-or-append`
-- Automated pipeline orchestration
+- Scheduled pipeline automation
 - Data freshness monitoring (Data Delay KPI)
+- Optimized ingestion to avoid duplicates
 
 ### 📈 Time-Series Analytics (KQL)
 - 1-minute bin aggregation
-- Rolling time-window analysis
+- 2-hour rolling monitoring window
 - Zone-level pollution comparison
-- Risk classification using case logic
-- Severe event detection (PM2.5 > 200)
+- Risk classification logic
+- Severe event detection
+- Top 15 highest pollution events ranking
 
 ### 🚨 Intelligent Monitoring
 - Risk Status indicator (SAFE / MODERATE / HIGH RISK / CRITICAL)
-- Top 15 severe pollution alerts
+- Automated severe alert identification
 - Data pipeline health indicator
 - Executive KPI summary row
 
@@ -58,7 +69,7 @@ Real-Time Dashboard + Power BI Report
 ## 📊 Dashboards
 
 ### 🟢 Real-Time Operational Dashboard
-Designed for control-room style monitoring.
+Designed for control-room monitoring.
 
 Includes:
 - Current Avg PM2.5
@@ -67,29 +78,29 @@ Includes:
 - Risk Status indicator
 - City-wide PM2.5 trend (2-hour window)
 - Zone risk comparison
-- Severe alert panel
+- Top 15 severe pollution events
 
 ### 🔵 Power BI Executive Report
-Designed for strategic insights.
+Designed for strategic analysis.
 
 Includes:
 - Executive KPI summary
 - Pollution trend analysis
 - Zone performance breakdown
 - Severity distribution
-- Interactive filtering by zone
+- Interactive zone filtering
 
 ---
 
 ## 🧠 KQL Logic Highlights
 
-**Trend Analysis**
+Trend Analysis:
 SensorEvents  
 | where timestamp_utc > ago(2h)  
 | summarize avg_pm25 = avg(pm25) by bin(timestamp_utc, 1m)  
 | order by timestamp_utc asc  
 
-**Zone Risk Classification**
+Zone Risk Classification:
 SensorEvents  
 | summarize avg_pm25 = avg(pm25) by zone_name  
 | extend risk_level =  
@@ -100,7 +111,7 @@ SensorEvents
    "Normal"  
   )  
 
-**Severe Pollution Alerts**
+Severe Alerts:
 SensorEvents  
 | where pm25 > 200  
 | project timestamp_utc, zone_name, pm25  
@@ -121,24 +132,24 @@ SensorEvents
 
 ---
 
-## 🎯 What This Project Demonstrates
+## 🎯 Engineering Concepts Demonstrated
 
 - Real-time ingestion architecture
-- Fabric-native orchestration
-- KQL time-series analytics
-- Risk-based classification logic
+- Incremental data processing
+- Time-series analytics using KQL
+- Risk-based classification modeling
 - Operational vs analytical dashboard design
-- Monitoring pipeline health
-- Clean portfolio documentation
+- Monitoring pipeline health and latency
+- Scalable Fabric-native architecture
 
 ---
 
 ## 🚀 Future Enhancements
 
-- Machine learning-based anomaly detection
+- ML-based anomaly detection
 - Geo-spatial pollution mapping
 - Predictive pollution forecasting
-- CI/CD pipeline deployment automation
+- CI/CD deployment automation
 
 ---
 
@@ -152,6 +163,4 @@ Microsoft Fabric | KQL | Power BI | Real-Time Analytics
 
 ## 📌 Summary
 
-This project demonstrates how Microsoft Fabric can be used to build a scalable, real-time smart city monitoring system with automated ingestion, analytical intelligence, and executive-level visualization.
-
-It combines engineering discipline with analytics storytelling.
+This project demonstrates how Microsoft Fabric can be used to build a scalable, real-time smart city monitoring system capable of processing hundreds of thousands of records with near real-time analytics and automated operational monitoring.
