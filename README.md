@@ -1,77 +1,166 @@
-# 🌆 Smart City Real-Time Air Quality Monitoring System
+# 🌆 Smart City Real-Time Air Quality Monitoring System  
+### Built using Microsoft Fabric | Eventstream | KQL | Power BI
 
-## 📌 Overview
+---
 
-This project simulates a large-scale Smart City IoT monitoring system using **Microsoft Fabric**.
+## 📌 Project Overview
 
-It ingests real-time air quality sensor data, processes it using KQL, and visualizes insights via:
+This project simulates a large-scale **Smart City IoT Air Quality Monitoring System** using Microsoft Fabric.
 
-- Real-Time Operational Dashboard
-- Power BI Analytical Report
+The system ingests real-time sensor data, performs time-series analytics using KQL, and provides both:
+
+- ⚡ Operational Monitoring (Real-Time Dashboard)
+- 📊 Executive Analytics (Power BI Report)
+
+---
+
+## 📊 Project Metrics
+
+- 📡 Simulated **50,000+ IoT sensors**
+- 📈 Processed **300,000+ sensor records**
+- ⏱ Achieved **sub-2 minute ingestion latency**
+- 🔄 Automated incremental ingestion via Fabric Data Pipeline
+- 📊 1-minute time-series aggregation for live analytics
+- 🚨 Real-time severe pollution detection (PM2.5 > 200)
 
 ---
 
 ## 🏗 Architecture
 
-Eventstream → KQL Database → Real-Time Dashboard  
-                    ↘ Power BI Report
-
-![Architecture](architecture.png)
+IoT Data Simulator (Notebook)  
+  ↓  
+Lakehouse (Delta Raw Storage)  
+  ↓  
+External Table (KQL Shortcut)  
+  ↓  
+Fabric Data Pipeline (Incremental Ingestion)  
+  ↓  
+Eventhouse (KQL Database)  
+  ↓  
+Real-Time Dashboard + Power BI Report  
 
 ---
 
-## ⚡ Features
+## ⚡ Key Features
 
-- Real-time PM2.5 monitoring
-- Zone-level pollution analysis
-- Severe pollution alerts
-- Data ingestion health monitoring
+### 🔄 Real-Time Data Pipeline
+- Simulated high-volume IoT data stream
+- Incremental ingestion using KQL `.set-or-append`
+- Scheduled pipeline automation
+- Data freshness monitoring (Data Delay KPI)
+- Optimized ingestion to avoid duplicates
+
+### 📈 Time-Series Analytics (KQL)
+- 1-minute bin aggregation
+- 2-hour rolling monitoring window
+- Zone-level pollution comparison
 - Risk classification logic
+- Severe event detection
+- Top 15 highest pollution events ranking
+
+### 🚨 Intelligent Monitoring
+- Risk Status indicator (SAFE / MODERATE / HIGH RISK / CRITICAL)
+- Automated severe alert identification
+- Data pipeline health indicator
+- Executive KPI summary row
 
 ---
 
 ## 📊 Dashboards
 
-### Real-Time Dashboard
-- Live trend monitoring
-- Risk status indicator
-- Top severe events table
+### 🟢 Real-Time Operational Dashboard
+Designed for control-room monitoring.
 
-![RT Dashboard](screenshots/rt_dashboard.png)
+Includes:
+- Current Avg PM2.5
+- Peak PM2.5
+- Data Delay (pipeline health)
+- Risk Status indicator
+- City-wide PM2.5 trend (2-hour window)
+- Zone risk comparison
+- Top 15 severe pollution events
+
+### 🔵 Power BI Executive Report
+Designed for strategic analysis.
+
+Includes:
+- Executive KPI summary
+- Pollution trend analysis
+- Zone performance breakdown
+- Severity distribution
+- Interactive zone filtering
 
 ---
 
-### Power BI Report
-- Executive KPI view
-- Trend analysis
-- Zone comparison
-- Severity breakdown
+## 🧠 KQL Logic Highlights
 
-![Power BI Dashboard](screenshots/powerbi_dashboard.png)
+Trend Analysis:
+SensorEvents  
+| where timestamp_utc > ago(2h)  
+| summarize avg_pm25 = avg(pm25) by bin(timestamp_utc, 1m)  
+| order by timestamp_utc asc  
+
+Zone Risk Classification:
+SensorEvents  
+| summarize avg_pm25 = avg(pm25) by zone_name  
+| extend risk_level =  
+  case(  
+   avg_pm25 > 200, "Severe",  
+   avg_pm25 > 150, "High",  
+   avg_pm25 > 100, "Moderate",  
+   "Normal"  
+  )  
+
+Severe Alerts:
+SensorEvents  
+| where pm25 > 200  
+| project timestamp_utc, zone_name, pm25  
+| order by pm25 desc  
+| take 15  
 
 ---
 
-## 🧠 Technologies Used
+## 🛠 Technologies Used
 
 - Microsoft Fabric
 - Eventstream
-- KQL (Kusto Query Language)
+- Eventhouse (KQL Database)
+- Lakehouse (Delta format)
+- Fabric Data Pipeline
 - Power BI
-- Python (data generator)
+- Python (IoT data simulation)
 
 ---
 
-## 🚀 Key Learnings
+## 🎯 Engineering Concepts Demonstrated
 
-- Real-time data ingestion patterns
-- Time-series aggregation using KQL
+- Real-time ingestion architecture
+- Incremental data processing
+- Time-series analytics using KQL
+- Risk-based classification modeling
 - Operational vs analytical dashboard design
-- Pipeline health monitoring
-- Risk classification modeling
+- Monitoring pipeline health and latency
+- Scalable Fabric-native architecture
 
 ---
 
-## 📬 Author
+## 🚀 Future Enhancements
 
-Nikhil Reddy  
-Aspiring Data Engineer | Fabric | KQL | Power BI
+- ML-based anomaly detection
+- Geo-spatial pollution mapping
+- Predictive pollution forecasting
+- CI/CD deployment automation
+
+---
+
+## 👤 Author
+
+**Nikhil Reddy**  
+Aspiring Data Engineer  
+Microsoft Fabric | KQL | Power BI | Real-Time Analytics  
+
+---
+
+## 📌 Summary
+
+This project demonstrates how Microsoft Fabric can be used to build a scalable, real-time smart city monitoring system capable of processing hundreds of thousands of records with near real-time analytics and automated operational monitoring.
