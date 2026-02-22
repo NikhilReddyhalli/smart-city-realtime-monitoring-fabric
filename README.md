@@ -157,7 +157,7 @@ SensorEvents
 
 **Nikhil Reddy**  
 Aspiring Data Engineer  
-Microsoft Fabric | KQL | Power BI | Real-Time Analytics  
+Microsoft Fabric | KQL | Power BI | Real-Time Analytics  .
 
 ---
 
